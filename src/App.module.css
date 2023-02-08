@@ -1,0 +1,137 @@
+.header {
+  background: var(--gray-700);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header div {
+  display: flex;
+  gap: 1rem;
+  margin-top: 72px;
+}
+
+.header div h1 {
+  color: var(--blue-300);
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.header div h1 span {
+  color: var(--purple-300);
+}
+
+.header form {
+  display: flex;
+  gap: 1rem;
+  margin-top: 53px;
+  width: 100%;
+  max-width: 780px;
+  padding: 0 1rem;
+}
+
+.header form input {
+  background-color: var(--gray-500);
+  color: var(--gray-100);
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 0;
+}
+
+.header form input::placeholder {
+  color: var(--gray-300);
+}
+
+.header form button {
+  color: var(--gray-100);
+  font-size: 0.875rem;
+  background-color: var(--blue-600);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 5.5rem 1rem;
+}
+
+.container header {
+  padding-bottom: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.container header strong {
+  display: flex;
+  gap: 8px;
+}
+
+.container header strong:first-child {
+  color: var(--blue-300);
+}
+
+.container header strong:last-child {
+  color: var(--purple-300);
+}
+
+.container header strong span {
+  padding: 2px 10px;
+  background-color: var(--gray-400);
+  color: var(--gray-100);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 999px;
+}
+
+.container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid #333333;
+}
+
+.container > div > img {
+  padding: 3rem 0 1rem;
+}
+
+.container ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style-type: none;
+}
+
+.container ul li {
+  background-color: var(--gray-500);
+  border: 1px solid var(--gray-400);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.container ul li p {
+  font-size: 0.875rem;
+  color: var(--gray-100);
+  flex: 1;
+  word-wrap: break-word;
+  line-height: 1.25rem;
+}
+
+.container ul li button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
