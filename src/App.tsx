@@ -111,6 +111,12 @@ function App() {
           </ul>
         )}
       </main>
+      <footer className={styles.footer}>
+        Desenvolvido por
+        <a href="https://giovanaraphaelli.vercel.app" target="_blank">
+          @girapha
+        </a>
+      </footer>
     </>
   );
 }
