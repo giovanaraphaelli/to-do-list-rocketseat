@@ -1,4 +1,4 @@
-import { PlusCircle, Trash, Circle } from 'phosphor-react';
+import { PlusCircle, Trash, Circle, CheckCircle } from 'phosphor-react';
 import { FormEvent, useState, ChangeEvent } from 'react';
 import styles from './App.module.css';
 import logo from './assets/rocket-logo.svg';
@@ -6,6 +6,7 @@ import clipboard from './assets/clipboard.svg';
 import './global.css';
 
 interface Task {
+  id: string;
   title: string;
   isFinished?: boolean;
 }
@@ -16,12 +17,31 @@ function App() {
 
   function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setTasks([...tasks, { title: newTitleTask }]);
+    setTasks([...tasks, { id: Date.now().toString(), title: newTitleTask }]);
     setNewTitleTask('');
   }
-  function handleNewTaskChange(event: ChangeEvent<HTMLFormElement>) {
+
+  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
     setNewTitleTask(event?.target.value);
   }
+
+  function handleDeleteTask(id: string) {
+    setTasks(tasks.filter((task) => task.id !== id));
+  }
+
+  function handleTaskFinished(id: string) {
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === id) {
+          return { ...task, isFinished: !task.isFinished };
+        }
+        return task;
+      })
+    );
+  }
+
+  const finishedTasks = tasks.filter((task) => task.isFinished).length;
+
   return (
     <>
       <header className={styles.header}>
@@ -31,14 +51,14 @@ function App() {
             to <span> do</span>
           </h1>
         </div>
-        <form onSubmit={(event) => handleCreateNewTask(event)}>
+        <form onSubmit={handleCreateNewTask}>
           <input
             type="text"
             name=""
             id=""
             placeholder="Adicione uma nova tarefa"
             value={newTitleTask}
-            onChange={(event) => handleNewTaskChange(event)}
+            onChange={handleNewTaskChange}
             required
           />
           <button type="submit">
@@ -53,7 +73,10 @@ function App() {
             Tarefas criadas <span>{tasks.length}</span>
           </strong>
           <strong>
-            Concluídas <span>0 de {tasks.length}</span>
+            Concluídas
+            <span>
+              {finishedTasks} de {tasks.length}
+            </span>
           </strong>
         </header>
         {!tasks.length ? (
@@ -66,11 +89,21 @@ function App() {
           <ul>
             {tasks.map((task, index) => (
               <li key={index}>
-                <button>
-                  <Circle size={20} color="#4EA8DE" />
+                <button onClick={() => handleTaskFinished(task.id)}>
+                  {task.isFinished ? (
+                    <CheckCircle size={20} color="#5E60CE" />
+                  ) : (
+                    <Circle size={20} color="#4EA8DE" />
+                  )}
                 </button>
-                <p>{task.title}</p>
-                <button>
+                <p
+                  className={
+                    !task.isFinished ? styles.title : styles.titleComplete
+                  }
+                >
+                  {task.title}
+                </p>
+                <button onClick={() => handleDeleteTask(task.id)}>
                   <Trash size={16} color="#808080" />
                 </button>
               </li>
