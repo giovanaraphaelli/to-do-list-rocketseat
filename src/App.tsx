@@ -1,9 +1,9 @@
 import { PlusCircle, Trash, Circle, CheckCircle } from 'phosphor-react';
 import { FormEvent, useState, ChangeEvent, useEffect } from 'react';
 import styles from './App.module.css';
-import logo from './assets/rocket-logo.svg';
 import clipboard from './assets/clipboard.svg';
 import './global.css';
+import { Header } from './components/Header';
 
 interface Task {
   id: string;
@@ -55,29 +55,11 @@ function App() {
 
   return (
     <>
-      <header className={styles.header}>
-        <div>
-          <img src={logo} alt="" />
-          <h1>
-            to <span> do</span>
-          </h1>
-        </div>
-        <form onSubmit={handleCreateNewTask}>
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="Adicione uma nova tarefa"
-            value={newTitleTask}
-            onChange={handleNewTaskChange}
-            required
-          />
-          <button type="submit">
-            Criar <PlusCircle size={16} />
-          </button>
-        </form>
-      </header>
-
+      <Header
+        handleCreateNewTask={handleCreateNewTask}
+        newTitleTask={newTitleTask}
+        handleNewTaskChange={handleNewTaskChange}
+      />
       <main className={styles.container}>
         <header>
           <strong>
