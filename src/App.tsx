@@ -1,5 +1,5 @@
 import { PlusCircle, Trash, Circle, CheckCircle } from 'phosphor-react';
-import { FormEvent, useState, ChangeEvent } from 'react';
+import { FormEvent, useState, ChangeEvent, useEffect } from 'react';
 import styles from './App.module.css';
 import logo from './assets/rocket-logo.svg';
 import clipboard from './assets/clipboard.svg';
@@ -12,8 +12,19 @@ interface Task {
 }
 
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+      return JSON.parse(storedTasks);
+    } else {
+      return [];
+    }
+  });
   const [newTitleTask, setNewTitleTask] = useState<string>('');
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -87,27 +98,31 @@ function App() {
           </div>
         ) : (
           <ul>
-            {tasks.map((task, index) => (
-              <li key={index}>
-                <button onClick={() => handleTaskFinished(task.id)}>
-                  {task.isFinished ? (
-                    <CheckCircle size={20} color="#5E60CE" />
-                  ) : (
-                    <Circle size={20} color="#4EA8DE" />
-                  )}
-                </button>
-                <p
-                  className={
-                    !task.isFinished ? styles.title : styles.titleComplete
-                  }
-                >
-                  {task.title}
-                </p>
-                <button onClick={() => handleDeleteTask(task.id)}>
-                  <Trash size={16} color="#808080" />
-                </button>
-              </li>
-            ))}
+            {tasks &&
+              tasks
+                .slice()
+                .reverse()
+                .map((task, index) => (
+                  <li key={task.id}>
+                    <button onClick={() => handleTaskFinished(task.id)}>
+                      {task.isFinished ? (
+                        <CheckCircle size={20} color="#5E60CE" />
+                      ) : (
+                        <Circle size={20} color="#4EA8DE" />
+                      )}
+                    </button>
+                    <p
+                      className={
+                        !task.isFinished ? styles.title : styles.titleComplete
+                      }
+                    >
+                      {task.title}
+                    </p>
+                    <button onClick={() => handleDeleteTask(task.id)}>
+                      <Trash size={16} color="#808080" />
+                    </button>
+                  </li>
+                ))}
           </ul>
         )}
       </main>
