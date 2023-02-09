@@ -20,35 +20,21 @@ function App() {
       return [];
     }
   });
-  const [newTitleTask, setNewTitleTask] = useState<string>('');
-
-  function setUpdateTask(tasks: Task[]) {
-    setTasks(tasks);
-  }
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setTasks([...tasks, { id: Date.now().toString(), title: newTitleTask }]);
-    setNewTitleTask('');
-  }
-
-  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
-    setNewTitleTask(event?.target.value);
+  function setUpdateTask(tasks: Task[]) {
+    setTasks(tasks);
   }
 
   const finishedTasks = tasks.filter((task) => task.isFinished).length;
 
   return (
     <>
-      <Header
-        handleCreateNewTask={handleCreateNewTask}
-        newTitleTask={newTitleTask}
-        handleNewTaskChange={handleNewTaskChange}
-      />
+      <Header tasks={tasks} setUpdateTask={setUpdateTask} />
+
       <main className={styles.container}>
         <header>
           <strong>
@@ -71,6 +57,7 @@ function App() {
           <TasksList tasks={tasks} setUpdateTask={setUpdateTask} />
         )}
       </main>
+
       <footer className={styles.footer}>
         Desenvolvido por
         <a href="https://giovanaraphaelli.vercel.app" target="_blank">

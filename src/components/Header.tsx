@@ -1,20 +1,30 @@
-import { FormEvent, ChangeEvent } from 'react';
+import { FormEvent, ChangeEvent, useState } from 'react';
 
 import { PlusCircle } from 'phosphor-react';
 import styles from './Header.module.css';
 import logo from '../assets/rocket-logo.svg';
+import { Task } from '../App';
 
 interface HeaderProps {
-  handleCreateNewTask: (event: FormEvent<HTMLFormElement>) => void;
-  handleNewTaskChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  newTitleTask: string;
+  tasks: Task[];
+  setUpdateTask: (tasks: Task[]) => void;
 }
 
-export function Header({
-  handleCreateNewTask,
-  newTitleTask,
-  handleNewTaskChange,
-}: HeaderProps) {
+export function Header({ setUpdateTask, tasks }: HeaderProps) {
+  const [newTitleTask, setNewTitleTask] = useState<string>('');
+
+  function handleCreateNewTask(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setUpdateTask([
+      ...tasks,
+      { id: Date.now().toString(), title: newTitleTask },
+    ]);
+    setNewTitleTask('');
+  }
+
+  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
+    setNewTitleTask(event?.target.value);
+  }
   return (
     <header className={styles.header}>
       <div>
