@@ -1,0 +1,38 @@
+.taskslist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style-type: none;
+}
+
+.taskslist li {
+  background-color: var(--gray-500);
+  border: 1px solid var(--gray-400);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.taskslist li p {
+  font-size: 0.875rem;
+  flex: 1;
+  word-wrap: break-word;
+  line-height: 1.25rem;
+}
+
+.taskslist .title {
+  color: var(--gray-100);
+}
+.taskslist .titleComplete {
+  color: var(--gray-300);
+  text-decoration-line: line-through;
+}
+
+.taskslist li button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}

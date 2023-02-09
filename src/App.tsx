@@ -1,11 +1,11 @@
-import { PlusCircle, Trash, Circle, CheckCircle } from 'phosphor-react';
-import { FormEvent, useState, ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import styles from './App.module.css';
 import clipboard from './assets/clipboard.svg';
-import './global.css';
 import { Header } from './components/Header';
+import { TasksList } from './components/TasksList';
+import './global.css';
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   isFinished?: boolean;
@@ -22,6 +22,10 @@ function App() {
   });
   const [newTitleTask, setNewTitleTask] = useState<string>('');
 
+  function setUpdateTask(tasks: Task[]) {
+    setTasks(tasks);
+  }
+
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
@@ -34,21 +38,6 @@ function App() {
 
   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
     setNewTitleTask(event?.target.value);
-  }
-
-  function handleDeleteTask(id: string) {
-    setTasks(tasks.filter((task) => task.id !== id));
-  }
-
-  function handleTaskFinished(id: string) {
-    setTasks(
-      tasks.map((task) => {
-        if (task.id === id) {
-          return { ...task, isFinished: !task.isFinished };
-        }
-        return task;
-      })
-    );
   }
 
   const finishedTasks = tasks.filter((task) => task.isFinished).length;
@@ -79,33 +68,7 @@ function App() {
             <span>Crie tarefas e organize seus itens a fazer</span>
           </div>
         ) : (
-          <ul>
-            {tasks &&
-              tasks
-                .slice()
-                .reverse()
-                .map((task, index) => (
-                  <li key={task.id}>
-                    <button onClick={() => handleTaskFinished(task.id)}>
-                      {task.isFinished ? (
-                        <CheckCircle size={20} color="#5E60CE" />
-                      ) : (
-                        <Circle size={20} color="#4EA8DE" />
-                      )}
-                    </button>
-                    <p
-                      className={
-                        !task.isFinished ? styles.title : styles.titleComplete
-                      }
-                    >
-                      {task.title}
-                    </p>
-                    <button onClick={() => handleDeleteTask(task.id)}>
-                      <Trash size={16} color="#808080" />
-                    </button>
-                  </li>
-                ))}
-          </ul>
+          <TasksList tasks={tasks} setUpdateTask={setUpdateTask} />
         )}
       </main>
       <footer className={styles.footer}>
